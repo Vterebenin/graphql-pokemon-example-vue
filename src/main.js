@@ -1,8 +1,11 @@
+import { loadFonts } from './plugins/webfontloader'
 import { createApp, provide, h } from 'vue'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { ApolloClient, InMemoryCache } from '@apollo/client/core'
 import App from './App.vue'
 import plugins from '@/plugins'
+
+loadFonts()
 
 const cache = new InMemoryCache()
 

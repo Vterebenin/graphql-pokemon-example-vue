@@ -1,7 +1,7 @@
 <template>
-  <ListVue />
+  <List />
 </template>
 <script setup>
-import ListVue from "@/components/List.vue";
+import List from "@/components/List.vue";
 </script>
 
