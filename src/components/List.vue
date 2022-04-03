@@ -19,39 +19,35 @@
             <img class="pokemon-photo" :src="pokemon.dreamworld" alt="img" />
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn class="font-weight-bold" variant="outlined" flat>
+            <v-btn class="font-weight-bold" variant="outlined" flat :to="{ name: 'detail', params: { name: pokemon.name } }">
               Look detail
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    {{ page }}
     <v-pagination v-model="page" :length="length"></v-pagination>
-    <!-- Pagination && detail design and go! -->
   </div>
 </template>
 
 <script setup>
 import { useQuery, useResult } from '@vue/apollo-composable';
 import { POKEMONS_LIST_QUERY } from '@/queries';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { roundUp } from '@/helpers'
 
 const PER_PAGE = 9;
-const { result, loading, error } = useQuery(POKEMONS_LIST_QUERY, { limit: PER_PAGE, offset: 0 });
+const { result, loading, error, refetch } = useQuery(POKEMONS_LIST_QUERY, { limit: PER_PAGE, offset: 0 });
 const pokemons = useResult(result, null, data => data.pokemons);
 const count = useResult(result, null, data => data.pokemons.count);
 const length = computed(() => roundUp(count.value / PER_PAGE))
-// watch(length, (value) => {
-//   if (value) {
-//     const { result, loading, error } = useQuery(POKEMONS_LIST_QUERY, { limit: PER_PAGE * value, offset: 0 });
-//     pokemons.value = useResult(result, null, data => data.pokemons);
-//     loading.value = loading;
-//     error.value = error;
-//   }
-// })
-const page = ref();
+const page = ref(1);
+watch(page, (value) => {
+  if (value) {
+    console.log({ limit: PER_PAGE, offset: PER_PAGE * (value - 1) });
+    refetch({ limit: PER_PAGE, offset: PER_PAGE * (value - 1) })
+  }
+})
 </script>
 
 <style>

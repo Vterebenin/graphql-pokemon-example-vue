@@ -3,8 +3,8 @@ import DetailPage from '@/pages/DetailPage'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  { path: '/', component: Index },
-  { path: '/pokemon/:name', component: DetailPage },
+  { path: '/', component: Index, name: 'index'},
+  { path: '/pokemon/:name', component: DetailPage, name: 'detail' },
 ]
 
 const router = createRouter({
