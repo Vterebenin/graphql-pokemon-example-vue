@@ -7,7 +7,9 @@ import plugins from '@/plugins'
 
 loadFonts()
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  addTypename: false,
+})
 
 const apolloClient = new ApolloClient({
   cache,
